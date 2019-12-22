@@ -20,6 +20,8 @@
             <navbar></navbar>
             <div class="row">
                 <div class="col-sm-12">
+                    <ct1></ct1>
+                    <wtg><wtg>
                 </div>
             </div>
             <div class="container">

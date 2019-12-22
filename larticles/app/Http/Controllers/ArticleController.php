@@ -45,8 +45,16 @@ class ArticleController extends Controller
         // Return collection of articles as a resource
         return WeightRecordResource::collection($weightRecords);
     }
+    /*
+    public function index_weightNoId()
+    {
+        // Get articles
+        $weightRecords = WeightRecord::orderBy('date', 'desc')->pluck('date','weight');
 
-
+        // Return collection of articles as a resource
+        return WeightRecordResource::collection($weightRecords);
+    }
+    */
 
     /**
      * Store a newly created resource in storage.

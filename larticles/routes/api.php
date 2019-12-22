@@ -39,6 +39,11 @@ Route::delete('article/{id}', 'ArticleController@destroy');
 // List weight records
 Route::get('weightRecords', 'ArticleController@index_weight');
 
+
+// List weight records
+//Route::get('weightRecordsNoId', 'ArticleController@index_weightNoId');
+
+
 // Create new article
 Route::post('weightRecord1', 'ArticleController@store_weightRecord1');
 

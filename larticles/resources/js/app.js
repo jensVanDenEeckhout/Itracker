@@ -21,8 +21,8 @@ import navbar from './components/Navbar';
 //import sleeptracker from './components/SleepTracker';
 import weighttracker from './components/WeightTracker';
 
-
-
+import ct1 from './components/ChartTest1';
+import wtg from './components/WeightTrackerGraph';
 
 
 const app = new Vue({
@@ -31,6 +31,8 @@ const app = new Vue({
     articles:articles,
     navbar:navbar,
     weighttracker:weighttracker,
+    ct1:ct1, 
+    wtg:wtg
 
   }
 });
