@@ -1,23 +1,51 @@
+
+<style scoped>
+.weightStatsAndAdd {
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-gap: 30px;
+  margin:30px;
+}
+</style>
+
 <template>
     <div>
         <h2>Weight tracker</h2>
 
-        <form @submit.prevent="addweightRecord1" class="mb-3"> 
-            <div class="form-group">
-                <input type="text" class="form-control" placeholder="Date" v-model="weightRecord.date">
-            </div>
+        <div class="weightStatsAndAdd">
+            <form @submit.prevent="addweightRecord1" class="mb-3"> 
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Date" v-model="weightRecord.date">
+                </div>
 
-             <div class="form-group">
-                <input type="text" class="form-control" placeholder="Weight" v-model="weightRecord.weight"></textarea>
-            </div>
+                 <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Weight" v-model="weightRecord.weight"></textarea>
+                </div>
 
-            <button type="submit" class="btn btn-light btn-block">Save</button>   
-        </form>
+                <button type="submit" class="btn btn-success btn-block">Save</button>   
+            </form>
 
-        <div class="card card-body mb-2" v-for="weightRecord in weightRecords" v-bind:key="weightRecord.id">
-            <h3> date: {{ weightRecord.date }} -> {{ weightRecord.weight }} kg</h3>
-            <hr>  
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>weight</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="weightRecord in weightRecords" v-bind:key="weightRecord.id"> 
+                   <td>{{ weightRecord.date }}</td> 
+                   <td>{{ weightRecord.weight }}</td>  
+                </tr>
+               </tbody>
+            </table>
         </div>
+
+        <!--
+            <ul class="card card-body mb-2" v-for="weightRecord in weightRecords" v-bind:key="weightRecord.id">
+                <li> date: {{ weightRecord.date }} -> {{ weightRecord.weight }} kg</li>
+            </ul>
+        -->  
     </div>
 </template>
 

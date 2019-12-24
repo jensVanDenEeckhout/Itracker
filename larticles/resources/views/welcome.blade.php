@@ -18,14 +18,15 @@
         <div id="app">
 
             <navbar></navbar>
+            <se></se>
             <div class="row">
                 <div class="col-sm-12">
-                    <ct1></ct1>
-                    <wtg><wtg>
+                    <wtg3></wtg3>
                 </div>
+                
             </div>
             <div class="container">
-                <weighttracker></weighttracker>
+
                 <articles></articles>
 
             </div>

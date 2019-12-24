@@ -40,7 +40,7 @@ class ArticleController extends Controller
     public function index_weight()
     {
         // Get articles
-        $weightRecords = WeightRecord::orderBy('date', 'desc')->paginate(5);
+        $weightRecords = WeightRecord::orderBy('date', 'desc')->paginate(10);
 
         // Return collection of articles as a resource
         return WeightRecordResource::collection($weightRecords);

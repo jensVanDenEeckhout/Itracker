@@ -24,6 +24,9 @@ import weighttracker from './components/WeightTracker';
 import ct1 from './components/ChartTest1';
 import wtg from './components/WeightTrackerGraph';
 
+import wtg3 from './components/WeightTrackerAddGraphDataShow';
+import se from './components/StrengthExcercise';
+ 
 
 const app = new Vue({
   el: '#app',
@@ -32,7 +35,8 @@ const app = new Vue({
     navbar:navbar,
     weighttracker:weighttracker,
     ct1:ct1, 
-    wtg:wtg
-
+    wtg:wtg,
+    wtg3:wtg3,
+    se:se
   }
 });

@@ -1,6 +1,61 @@
+
+
+<style scoped>
+    .test{
+          display: grid;
+          grid-template-columns: 100%;
+          grid-gap: 30px;
+          margin:30px;
+          border-style: 1px solid;
+
+    }
+    .weightStatsAndAdd {
+      display: grid;
+      grid-template-columns: auto auto;
+      grid-gap: 30px;
+      margin:30px;
+      align-items: center;
+    }
+
+    .table{
+    }
+</style>
+
 <template>
-  <div id="app">
+  <div id="app" class="test">
+         <h2 style="text-align:center;">Weight tracker</h2>
       <line-chart :data="d1" :min="min" :max="max"></line-chart>
+
+    <div class="weightStatsAndAdd">
+        <form @submit.prevent="addweightRecord1" class="mb-3"> 
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="Date" v-model="weightRecord.date">
+            </div>
+
+             <div class="form-group">
+                <input type="text" class="form-control" placeholder="Weight" v-model="weightRecord.weight"></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-success btn-block">Save</button>   
+        </form>
+
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>weight</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="weightRecord in weightRecords" v-bind:key="weightRecord.id"> 
+               <td>{{ weightRecord.date }}</td> 
+               <td>{{ weightRecord.weight }}</td>  
+            </tr>
+           </tbody>
+        </table>
+    </div>
+
+
   </div>
 </template>
 
@@ -51,6 +106,25 @@ export default {
             })
             .catch( err => console.log(err));
         },
+        addweightRecord1(){
+            if(this.edit === false){
+                // add
+                fetch('api/weightRecord1', {
+                    method: 'post',
+                    body: JSON.stringify(this.weightRecord),
+                    headers: {
+                        'content-type': 'application/json'
+                    }
+                })
+                .then(res => res.json())
+                .then(data => {
+                    alert('weightRecord Added');
+                    this.fetchWeightRecords();
+                })
+                .catch(err => console.log(err));
+            }else{
+            }
+        },
         greet: function(){
             console.log('test');
             console.log(this.weightRecords);
@@ -72,8 +146,6 @@ export default {
             }
             console.log(d2);
             this.d1 = d2;
-
-
         }
     }
 };
