@@ -90,6 +90,26 @@ class ArticleController extends Controller
         }
     }
 
+    public function store_excerciseRecord(Request $request)
+    {
+
+        $excerciseRecord = $request->isMethod('put') ? ExcerciseRecord::findOrFail($request->excerciseRecord_id) : new ExcerciseRecord;
+
+        $excerciseRecord->id = $request->input('excerciseRecord_id');
+        $excerciseRecord->date = $request->input('date');
+        $excerciseRecord->exercise = $request->input('exercise');   
+        $excerciseRecord->repetitions = $request->input('repetitions');   
+        $excerciseRecord->weight = $request->input('weight');   
+
+        
+        if($excerciseRecord->save()){
+            return new ExcerciseRecordResource($excerciseRecord);
+        }
+    }
+
+
+
+
     /**
      * Display the specified resource.
      *

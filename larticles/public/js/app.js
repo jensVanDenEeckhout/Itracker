@@ -2119,24 +2119,105 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'app',
   data: function data() {
     return {
-      rows: []
+      selected: '12',
+      selectedList: [12, 1, 2, 3, 4],
+      rows: [],
+      muscleGroups: ['back', 'bicep'],
+      repetitions: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
+      rowsexc: [],
+      muscleExcercises: [],
+      selectedMuscleGroup: '',
+      selectedMuscleGroupIndex: ''
     };
   },
   methods: {
     addRow: function addRow() {
-      var elem = document.createElement('tr');
-      this.rows.push({
-        title: "",
-        description: "",
-        file: {
-          name: 'Choose File'
-        }
-      });
+      this.rows.push({}); // this.setStandardValueDropdown();
+
+      this.setStandardValueDropdownClass();
     },
     removeElement: function removeElement(index) {
       this.rows.splice(index, 1);
@@ -2144,6 +2225,55 @@ __webpack_require__.r(__webpack_exports__);
     setFilename: function setFilename(event, row) {
       var file = event.target.files[0];
       row.file = file;
+    },
+    fillComboboxBasedOnMuscleGroup: function fillComboboxBasedOnMuscleGroup() {
+      console.log(this); //dropDownSpecificExcercise
+
+      var x = document.getElementsByClassName("divexcer");
+      console.log(x);
+      x[0].style.display = "block";
+      var muscleGroup = document.getElementsByClassName("dropDownSpecificExcercise");
+      console.log(muscleGroup.text); //this.muscleExcercises = ['biceps curl','hammer curl'];
+
+      if (this.selectedMuscleGroup == this.muscleGroups[0]) {
+        this.muscleExcercises = ['back row', 'pull up'];
+      } else if (this.selectedMuscleGroup == this.muscleGroups[1]) {
+        this.muscleExcercises = ['biceps curl', 'hammer curl'];
+      } else {} //this.muscleExcercises = this.selectedMuscleGroup == this.muscleGroups[0] ? ['back row','pull up'] : "";
+
+    },
+    setStandardValueDropdown: function setStandardValueDropdown() {
+      var x = document.getElementById("setReps"); // x[0].value = 12;
+
+      console.log("test");
+      console.log(x);
+      x.value = 12;
+      /*
+          setSelectedIndex( document.getElementsByClassName("dropDownSpecificExcerciseRepetitions"),5);
+      */
+    },
+    setStandardValueDropdownClass: function setStandardValueDropdownClass() {
+      var x = document.getElementsByClassName("setReps"); // x[0].value = 12;
+
+      console.log("test");
+      console.log(x.length);
+      x[x.length - 1].value = 12;
+      /*
+          setSelectedIndex( document.getElementsByClassName("dropDownSpecificExcerciseRepetitions"),5);
+      */
+    },
+    onChange: function onChange(event) {
+      console.log(event.target.value);
+      this.selectedMuscleGroupIndex = event.target.value;
+
+      for (var i = 0; i < this.muscleGroups.length; i++) {
+        if (this.muscleGroups[i] == this.muscleGroups[this.selectedMuscleGroupIndex]) {
+          this.selectedMuscleGroup = this.muscleGroups[i];
+        }
+      } //console.log( this.selectedMuscleGroup );
+
+
+      this.fillComboboxBasedOnMuscleGroup();
     }
   }
 });
@@ -21138,7 +21268,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.fileContainer {\n    overflow: hidden;\n    position: relative;\n}\n.fileContainer [type=file] {\n    cursor: inherit;\n    display: block;\n    font-size: 999px;\n    filter: alpha(opacity=0);\n    min-height: 21px;\n    min-width: 100%;\n    opacity: 0;\n    position: absolute;\n    right: 0;\n    text-align: right;\n    top: 0;\n}\n.fileContainer {\n    background: #E3E3E3;\n    float: left;\n    padding: .5em;\n    height: 21px;\n}\n.fileContainer [type=file] {\n    cursor: pointer;\n}\n", ""]);
+exports.push([module.i, "\n.fileContainer {\n    overflow: hidden;\n    position: relative;\n}\n.fileContainer [type=file] {\n    cursor: inherit;\n    display: block;\n    font-size: 999px;\n    filter: alpha(opacity=0);\n    min-height: 21px;\n    min-width: 100%;\n    opacity: 0;\n    position: absolute;\n    right: 0;\n    text-align: right;\n    top: 0;\n}\n.fileContainer {\n    background: #E3E3E3;\n    float: left;\n    padding: .5em;\n    height: 21px;\n}\n.fileContainer [type=file] {\n    cursor: pointer;\n}\n.divexcer{\n  display:none;\n/* transition */\n}\n", ""]);
 
 // exports
 
@@ -58802,6 +58932,64 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { attrs: { id: "app" } }, [
+    _c("td", [
+      _c(
+        "select",
+        {
+          attrs: { required: "", id: "dropDown" },
+          on: {
+            change: function($event) {
+              return _vm.onChange($event)
+            }
+          }
+        },
+        [
+          _c("option", [_vm._v("Select here")]),
+          _vm._v(" "),
+          _vm._l(_vm.muscleGroups, function(muscleGroup, index) {
+            return _c("option", { domProps: { value: index } }, [
+              _vm._v(_vm._s(muscleGroup) + " ")
+            ])
+          })
+        ],
+        2
+      )
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "divexcer" }, [
+      _c("td", [
+        _c(
+          "select",
+          { staticClass: "dropDownSpecificExcercise", attrs: { required: "" } },
+          [
+            _c("option", [_vm._v("Select here")]),
+            _vm._v(" "),
+            _vm._l(_vm.muscleExcercises, function(muscleExcercise, index) {
+              return _c("option", [_vm._v(_vm._s(muscleExcercise))])
+            })
+          ],
+          2
+        )
+      ])
+    ]),
+    _vm._v(" "),
+    _c("td", [
+      _c(
+        "select",
+        { staticClass: "setReps1", attrs: { required: "" } },
+        [
+          _c("option", [_vm._v("Select here")]),
+          _vm._v(" "),
+          _vm._l(_vm.repetitions, function(repetition) {
+            return _c("option", { domProps: { value: repetition } }, [
+              _vm._v(_vm._s(repetition))
+            ])
+          })
+        ],
+        2
+      )
+    ]),
+    _vm._v(" "),
     _c("table", { staticClass: "table" }, [
       _vm._m(0),
       _vm._v(" "),
@@ -58810,82 +58998,115 @@ var render = function() {
         _vm._l(_vm.rows, function(row, index) {
           return _c("tr", [
             _c("td", [
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: row.title,
-                    expression: "row.title"
-                  }
+              _c(
+                "select",
+                {
+                  staticClass: "dropDownSpecificExcercise",
+                  attrs: { required: "" }
+                },
+                [
+                  _c("option", [_vm._v("Select here")]),
+                  _vm._v(" "),
+                  _vm._l(_vm.muscleExcercises, function(muscleExcercise) {
+                    return _c("option", [_vm._v(_vm._s(muscleExcercise))])
+                  })
                 ],
-                attrs: { type: "text" },
-                domProps: { value: row.title },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(row, "title", $event.target.value)
-                  }
-                }
-              })
-            ]),
-            _vm._v(" "),
-            _c("td", [
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: row.description,
-                    expression: "row.description"
-                  }
-                ],
-                attrs: { type: "text" },
-                domProps: { value: row.description },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(row, "description", $event.target.value)
-                  }
-                }
-              })
-            ]),
-            _vm._v(" "),
-            _c("td", [
-              _c("label", { staticClass: "fileContainer" }, [
-                _vm._v(
-                  "\n                        " +
-                    _vm._s(row.file.name) +
-                    "\n                        "
-                ),
-                _c("input", {
-                  attrs: { type: "file", id: index },
-                  on: {
-                    change: function($event) {
-                      return _vm.setFilename($event, row)
-                    }
-                  }
-                })
-              ])
+                2
+              )
             ]),
             _vm._v(" "),
             _c("td", [
               _c(
-                "a",
+                "select",
                 {
-                  staticStyle: { cursor: "pointer" },
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.selectedList[index],
+                      expression: "selectedList[index]"
+                    }
+                  ],
+                  staticClass: "setReps",
+                  attrs: { required: "" },
                   on: {
-                    click: function($event) {
-                      return _vm.removeElement(index)
+                    change: function($event) {
+                      var $$selectedVal = Array.prototype.filter
+                        .call($event.target.options, function(o) {
+                          return o.selected
+                        })
+                        .map(function(o) {
+                          var val = "_value" in o ? o._value : o.value
+                          return val
+                        })
+                      _vm.$set(
+                        _vm.selectedList,
+                        index,
+                        $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      )
                     }
                   }
                 },
-                [_vm._v("Remove")]
+                [
+                  _c("option", [_vm._v("Select here")]),
+                  _vm._v(" "),
+                  _vm._l(_vm.repetitions, function(repetition) {
+                    return _c("option", { domProps: { value: repetition } }, [
+                      _vm._v(_vm._s(repetition))
+                    ])
+                  })
+                ],
+                2
               )
+            ]),
+            _vm._v(" "),
+            _c("td", [
+              _c(
+                "select",
+                { staticClass: "setWeight", attrs: { required: "" } },
+                [
+                  _c("option", [_vm._v("Select here")]),
+                  _vm._v(" "),
+                  _vm._l(_vm.repetitions, function(repetition) {
+                    return _c("option", [_vm._v(_vm._s(repetition))])
+                  })
+                ],
+                2
+              )
+            ]),
+            _vm._v(" "),
+            _c("td", [
+              _c("button", { staticClass: "btn-success" }, [
+                _c(
+                  "a",
+                  {
+                    staticStyle: { cursor: "pointer" },
+                    on: {
+                      click: function($event) {
+                        return _vm.saveRecord(index)
+                      }
+                    }
+                  },
+                  [_vm._v("Save")]
+                )
+              ]),
+              _vm._v(" "),
+              _c("button", { staticClass: "btn-danger" }, [
+                _c(
+                  "a",
+                  {
+                    staticStyle: { cursor: "pointer" },
+                    on: {
+                      click: function($event) {
+                        return _vm.removeElement(index)
+                      }
+                    }
+                  },
+                  [_vm._v("Remove")]
+                )
+              ])
             ])
           ])
         }),
@@ -58909,11 +59130,11 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("thead", [
       _c("tr", [
-        _c("td", [_c("strong", [_vm._v("Title")])]),
+        _c("td", [_c("strong", [_vm._v("Dropdown ")])]),
         _vm._v(" "),
-        _c("td", [_c("strong", [_vm._v("Description")])]),
+        _c("td", [_c("strong", [_vm._v("set1 repetitions")])]),
         _vm._v(" "),
-        _c("td", [_c("strong", [_vm._v("File")])]),
+        _c("td", [_c("strong", [_vm._v("set1 weight")])]),
         _vm._v(" "),
         _c("td")
       ])

@@ -51,5 +51,8 @@ Route::post('weightRecord1', 'ArticleController@store_weightRecord1');
 // List articles
 //Route::get('sleepRecords', 'ArticleController@index_sleep');
 
+Route::post('excerciseRecord', 'ArticleController@store_excerciseRecord');
+
+
 
 
