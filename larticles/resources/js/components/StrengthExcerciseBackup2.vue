@@ -37,23 +37,17 @@
 
     .exerciseRecord{
       display:grid;
-      grid-template-columns: auto auto ;
-      grid-template-rows: auto auto;
-
+      grid-template-columns: auto auto auto;
       grid-gap: 30px;
       margin:30px;
       align-items: center;
-    }
-    .addExerciseRecord{
-      grid-column-start: 1;
-      grid-column-end: 3;
     }
 </style>
 
 <template>
   <div id="app">
     <div class="exerciseRecord">
-      <div class="addExerciseRecord">
+      <div>
         <td>
           <select required id="dropDown" @change="onChange($event)">
             <option>Select</option>
@@ -61,6 +55,14 @@
           </select>
         </td>  
 
+        <div class="divexcer">  
+          <td>
+            <select required class="dropDownSpecificExercise" >
+              <option>Select </option>
+              <option v-for="(muscleExcercise,index) in muscleExcercises">{{ muscleExcercise }}</option>
+            </select>
+          </td>  
+        </div>  
 
         <table class="table">
             <thead>
@@ -74,9 +76,9 @@
             <tbody>
                 <tr v-for="(row, index) in rows">
                     <td>
-                      <select required class="dropDownSpecificExercise" @change="onChangeExcercise($event)" v-model="exerciseRecord.exercise" >
+                      <select required class="dropDownSpecificExercise" v-model="exerciseRecord.exercise" >
                         <option>Select</option>
-                        <option v-for="muscleExercise in muscleExercises">{{ muscleExercise }}</option>
+                        <option v-for="muscleExcercise in muscleExcercises">{{ muscleExcercise }}</option>
                       </select>
                     </td> 
 
@@ -88,7 +90,7 @@
                     </td>  
 
                      <td>
-                      <select required class="setWeight" v-model="exerciseRecord.weight">
+                      <select required class="setWeight" v-model="exerciseRecord.weight" >
                         <option>Select </option>
                         <option v-for="repetition in repetitions">{{ repetition }}</option>
                       </select>
@@ -96,25 +98,20 @@
 
                 </tr>
             </tbody>
+                                          <button class="btn-success"><a  v-on:click="saveRecord();" style="cursor: pointer">Save</a></button>
 
-            <tbody>
-              <td>
-                <button class="btn-success"><a  v-on:click="saveRecord();" style="cursor: pointer">Save</a></button>
-              </td>
-              <td>
-              <button class="btn-danger"><a v-on:click="removeElement(index);" style="cursor: pointer">Remove</a></button>
-                </td>
-              </tbody>            
-              
+                     <button class="btn-danger"><a v-on:click="removeElement(index);" style="cursor: pointer">Remove</a></button>
         </table>
-      </div>
 
+        <div>
+          <button class="button btn-primary" @click="addRow">Add row</button>
+          <hr>
+        </div>
+      </div>
       <div class="latestRecords">
-        <h3 style="text-align:center"> Latest records</h3>
         <table class="table table-striped">
           <thead>
             <tr>
-              <th>date</th>                   
               <th>exercise</th>
               <th>repetition</th>              
               <th>weight</th>
@@ -122,7 +119,6 @@
           </thead>
           <tbody>
             <tr v-for="exercise in exerciseRecords" v-bind:key="exercise.id"> 
-               <td>{{ exercise.date }}</td>               
                <td>{{ exercise.exercise }}</td> 
                <td>{{ exercise.repetitions }}</td>                 
                <td>{{ exercise.weight }}</td>  
@@ -130,21 +126,17 @@
            </tbody>
         </table>
       </div>
-
       <div class="latestSpecificRecords">
-        <h3 style="text-align:center"> Specific records</h3>
         <table class="table table-striped">
           <thead>
             <tr>
-              <th>date</th>              
               <th>exercise</th>
               <th>repetition</th>              
               <th>weight</th>
             </tr>
           </thead>
           <tbody>
-            <tr v-for="exercise in specificExerciseRecords" v-bind:key="exercise.id"> 
-               <td>{{ exercise.date }}</td> 
+            <tr v-for="exercise in exerciseRecords" v-bind:key="exercise.id"> 
                <td>{{ exercise.exercise }}</td> 
                <td>{{ exercise.repetitions }}</td>                 
                <td>{{ exercise.weight }}</td>  
@@ -152,7 +144,6 @@
            </tbody>
         </table>
       </div>
-
     </div>
   </div>
 </template>
@@ -172,7 +163,7 @@
                   muscleGroups: ['back','bicep'],
                   repetitions: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16],
                   rowsexc: [],
-                  muscleExercises: [],
+                  muscleExcercises: [],
                   selectedMuscleGroup: '',
                   selectedMuscleGroupIndex: '',
                   exerciseRecord: {
@@ -183,20 +174,19 @@
                     weight: ''
                   },
                   exerciseRecords: [],
-                  specificExerciseRecords: [],
-                  selectedExercise: '',
-
                 }
               },
               created(){
                   this.fetchLatestExerciseRecords();
-                  //this.latestSpecificExerciseRecords();
-
               },
               methods: {
-                  fetchAllRecordFunctions(){
-                    this.fetchLatestExerciseRecords();
-                    this.latestSpecificExerciseRecords();
+                  addRow: function() {
+                      
+                      this.rows.push({
+
+                      });
+                     // this.setStandardValueDropdown();
+                     this.setStandardValueDropdownClass();
                   },
                   removeElement: function(index) {
                       this.rows.splice(index, 1);
@@ -215,8 +205,6 @@
                         //this.fetchWeightRecords();
                     })
                     .catch(err => console.log(err));
-
-                    this.fetchAllRecordFunctions();
                   },
                   setFilename: function(event, row) {
                       var file = event.target.files[0];
@@ -239,14 +227,27 @@
                     fetch(page_url)
                     .then(res => res.json())
                     .then(res => {
-                        this.specificExerciseRecords = res.data;
-                        console.log(this.specificExerciseRecords);
+                        this.exerciseRecords = res.data;
+                        console.log(this.exerciseRecords);
                     })
                     .catch( err => console.log(err));
                   },
                   fillComboboxBasedOnMuscleGroup: function(){
                     console.log('fillcomboboxmusclegroup');
                     console.log(this);
+                    //dropDownSpecificExcercise
+
+                    //var x = document.getElementsByClassName("divexcer");
+                    //console.log(x);
+                    //x[0].style.display = "block";
+
+                    /*
+                    var muscleGroup = document.getElementsByClassName("dropDownSpecificExercise");
+                    console.log("muscle group is:" );
+                    console.log( muscleGroup);
+                    */
+
+                    //this.muscleExcercises = ['biceps curl','hammer curl'];
 
                     if( this.selectedMuscleGroup == this.muscleGroups[0]){
                       this.muscleExercises = ['back row','pull up'];
@@ -257,14 +258,34 @@
                      }
                      console.log( this.muscleExercises );
 
+                    //this.muscleExcercises = this.selectedMuscleGroup == this.muscleGroups[0] ? ['back row','pull up'] : "";
+                  },
+                  setStandardValueDropdown: function(){
+
+                    var x = document.getElementById("setReps");
+                    // x[0].value = 12;
+                    console.log("test");
+                    console.log(x);
+                    x.value = 12;
+                    /*
+                        setSelectedIndex( document.getElementsByClassName("dropDownSpecificExcerciseRepetitions"),5);
+                    */
+                  },
+                  setStandardValueDropdownClass: function(){
+                      var x = document.getElementsByClassName("setReps");
+                     // x[0].value = 12;
+                      console.log("test");
+                      console.log(x.length);
+
+                        x[x.length-1].value = 12;
+                      
+                      /*
+                          setSelectedIndex( document.getElementsByClassName("dropDownSpecificExcerciseRepetitions"),5);
+                      */
                   },
                   onChange(event){
-                   
-                    if( this.rows.length === 0){
-                      this.rows.push({
-                      });
-                    }
-
+                    console.log(event.target.value);
+                    
                     this.selectedMuscleGroupIndex = event.target.value;
                     for(let i = 0; i < this.muscleGroups.length; i++){
                       if(this.muscleGroups[i] == this.muscleGroups[this.selectedMuscleGroupIndex]){
@@ -274,27 +295,9 @@
                     console.log( this.selectedMuscleGroup );
                     this.fillComboboxBasedOnMuscleGroup();
                     
-                  },
-                  onChangeExcercise(event){
-                    this.selectedExercise = event.target.value;
-                    console.log( this.selectedExercise );
-                    fetch('api/showSpecificExercise', {
-                        method: 'post',
-                        body: JSON.stringify(this.selectedExercise),
-                        headers: {
-                            'content-type': 'application/json'
-                        }
-                    })
-                    .then(res => res.json())
-                    .then(res => {
-                      this.specificExerciseRecords = res.data;
-                        alert('exercise changes');
-                        //this.fetchWeightRecords();
-                    })
-                    .catch(err => console.log(err));
-
-                    //this.fetchAllRecordFunctions();
                   }
+
+
               }
           };
 </script>

@@ -2197,6 +2197,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'app',
@@ -2208,72 +2220,127 @@ __webpack_require__.r(__webpack_exports__);
       muscleGroups: ['back', 'bicep'],
       repetitions: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
       rowsexc: [],
-      muscleExcercises: [],
+      muscleExercises: [],
       selectedMuscleGroup: '',
-      selectedMuscleGroupIndex: ''
+      selectedMuscleGroupIndex: '',
+      exerciseRecord: {
+        id: '',
+        date: new Date().toISOString().slice(0, 10),
+        exercise: '',
+        repetitions: '',
+        weight: ''
+      },
+      exerciseRecords: [],
+      specificExerciseRecords: [],
+      selectedExercise: ''
     };
   },
+  created: function created() {
+    this.fetchLatestExerciseRecords(); //this.latestSpecificExerciseRecords();
+  },
   methods: {
-    addRow: function addRow() {
-      this.rows.push({}); // this.setStandardValueDropdown();
-
-      this.setStandardValueDropdownClass();
+    fetchAllRecordFunctions: function fetchAllRecordFunctions() {
+      this.fetchLatestExerciseRecords();
+      this.latestSpecificExerciseRecords();
     },
     removeElement: function removeElement(index) {
       this.rows.splice(index, 1);
+    },
+    saveRecord: function saveRecord() {
+      fetch('api/exerciseRecord', {
+        method: 'post',
+        body: JSON.stringify(this.exerciseRecord),
+        headers: {
+          'content-type': 'application/json'
+        }
+      }).then(function (res) {
+        return res.json();
+      }).then(function (data) {
+        alert('exerciseRecord Added'); //this.fetchWeightRecords();
+      })["catch"](function (err) {
+        return console.log(err);
+      });
+      this.fetchAllRecordFunctions();
     },
     setFilename: function setFilename(event, row) {
       var file = event.target.files[0];
       row.file = file;
     },
-    fillComboboxBasedOnMuscleGroup: function fillComboboxBasedOnMuscleGroup() {
-      console.log(this); //dropDownSpecificExcercise
+    fetchLatestExerciseRecords: function fetchLatestExerciseRecords(page_url) {
+      var _this = this;
 
-      var x = document.getElementsByClassName("divexcer");
-      console.log(x);
-      x[0].style.display = "block";
-      var muscleGroup = document.getElementsByClassName("dropDownSpecificExcercise");
-      console.log(muscleGroup.text); //this.muscleExcercises = ['biceps curl','hammer curl'];
+      var vm = this;
+      page_url = page_url || '/api/exerciseRecords';
+      fetch(page_url).then(function (res) {
+        return res.json();
+      }).then(function (res) {
+        _this.exerciseRecords = res.data;
+        console.log(_this.exerciseRecords);
+      })["catch"](function (err) {
+        return console.log(err);
+      });
+    },
+    latestSpecificExerciseRecords: function latestSpecificExerciseRecords(page_url) {
+      var _this2 = this;
+
+      var vm = this;
+      page_url = page_url || '/api/latestSpecificExerciseRecords';
+      fetch(page_url).then(function (res) {
+        return res.json();
+      }).then(function (res) {
+        _this2.specificExerciseRecords = res.data;
+        console.log(_this2.specificExerciseRecords);
+      })["catch"](function (err) {
+        return console.log(err);
+      });
+    },
+    fillComboboxBasedOnMuscleGroup: function fillComboboxBasedOnMuscleGroup() {
+      console.log('fillcomboboxmusclegroup');
+      console.log(this);
 
       if (this.selectedMuscleGroup == this.muscleGroups[0]) {
-        this.muscleExcercises = ['back row', 'pull up'];
+        this.muscleExercises = ['back row', 'pull up'];
       } else if (this.selectedMuscleGroup == this.muscleGroups[1]) {
-        this.muscleExcercises = ['biceps curl', 'hammer curl'];
-      } else {} //this.muscleExcercises = this.selectedMuscleGroup == this.muscleGroups[0] ? ['back row','pull up'] : "";
+        this.muscleExercises = ['biceps curl', 'hammer curl'];
+      } else {}
 
-    },
-    setStandardValueDropdown: function setStandardValueDropdown() {
-      var x = document.getElementById("setReps"); // x[0].value = 12;
-
-      console.log("test");
-      console.log(x);
-      x.value = 12;
-      /*
-          setSelectedIndex( document.getElementsByClassName("dropDownSpecificExcerciseRepetitions"),5);
-      */
-    },
-    setStandardValueDropdownClass: function setStandardValueDropdownClass() {
-      var x = document.getElementsByClassName("setReps"); // x[0].value = 12;
-
-      console.log("test");
-      console.log(x.length);
-      x[x.length - 1].value = 12;
-      /*
-          setSelectedIndex( document.getElementsByClassName("dropDownSpecificExcerciseRepetitions"),5);
-      */
+      console.log(this.muscleExercises);
     },
     onChange: function onChange(event) {
-      console.log(event.target.value);
+      if (this.rows.length === 0) {
+        this.rows.push({});
+      }
+
       this.selectedMuscleGroupIndex = event.target.value;
 
       for (var i = 0; i < this.muscleGroups.length; i++) {
         if (this.muscleGroups[i] == this.muscleGroups[this.selectedMuscleGroupIndex]) {
           this.selectedMuscleGroup = this.muscleGroups[i];
         }
-      } //console.log( this.selectedMuscleGroup );
+      }
 
-
+      console.log(this.selectedMuscleGroup);
       this.fillComboboxBasedOnMuscleGroup();
+    },
+    onChangeExcercise: function onChangeExcercise(event) {
+      var _this3 = this;
+
+      this.selectedExercise = event.target.value;
+      console.log(this.selectedExercise);
+      fetch('api/showSpecificExercise', {
+        method: 'post',
+        body: JSON.stringify(this.selectedExercise),
+        headers: {
+          'content-type': 'application/json'
+        }
+      }).then(function (res) {
+        return res.json();
+      }).then(function (res) {
+        _this3.specificExerciseRecords = res.data;
+        alert('exercise changes'); //this.fetchWeightRecords();
+      })["catch"](function (err) {
+        return console.log(err);
+      }); //this.fetchAllRecordFunctions();
     }
   }
 });
@@ -21268,7 +21335,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.fileContainer {\n    overflow: hidden;\n    position: relative;\n}\n.fileContainer [type=file] {\n    cursor: inherit;\n    display: block;\n    font-size: 999px;\n    filter: alpha(opacity=0);\n    min-height: 21px;\n    min-width: 100%;\n    opacity: 0;\n    position: absolute;\n    right: 0;\n    text-align: right;\n    top: 0;\n}\n.fileContainer {\n    background: #E3E3E3;\n    float: left;\n    padding: .5em;\n    height: 21px;\n}\n.fileContainer [type=file] {\n    cursor: pointer;\n}\n.divexcer{\n  display:none;\n/* transition */\n}\n", ""]);
+exports.push([module.i, "\n.fileContainer {\n    overflow: hidden;\n    position: relative;\n}\n.fileContainer [type=file] {\n    cursor: inherit;\n    display: block;\n    font-size: 999px;\n    filter: alpha(opacity=0);\n    min-height: 21px;\n    min-width: 100%;\n    opacity: 0;\n    position: absolute;\n    right: 0;\n    text-align: right;\n    top: 0;\n}\n.fileContainer {\n    background: #E3E3E3;\n    float: left;\n    padding: .5em;\n    height: 21px;\n}\n.fileContainer [type=file] {\n    cursor: pointer;\n}\n.divexcer{\n  display:none;\n/* transition */\n}\n.exerciseRecord{\n  display:grid;\n  grid-template-columns: auto auto ;\n  grid-template-rows: auto auto;\n\n  grid-gap: 30px;\n  margin:30px;\n  -webkit-box-align: center;\n          align-items: center;\n}\n.addExerciseRecord{\n  grid-column-start: 1;\n  grid-column-end: 3;\n}\n", ""]);
 
 // exports
 
@@ -58932,151 +58999,188 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { attrs: { id: "app" } }, [
-    _c("td", [
-      _c(
-        "select",
-        {
-          attrs: { required: "", id: "dropDown" },
-          on: {
-            change: function($event) {
-              return _vm.onChange($event)
-            }
-          }
-        },
-        [
-          _c("option", [_vm._v("Select here")]),
+    _c("div", { staticClass: "exerciseRecord" }, [
+      _c("div", { staticClass: "addExerciseRecord" }, [
+        _c("td", [
+          _c(
+            "select",
+            {
+              attrs: { required: "", id: "dropDown" },
+              on: {
+                change: function($event) {
+                  return _vm.onChange($event)
+                }
+              }
+            },
+            [
+              _c("option", [_vm._v("Select")]),
+              _vm._v(" "),
+              _vm._l(_vm.muscleGroups, function(muscleGroup, index) {
+                return _c("option", { domProps: { value: index } }, [
+                  _vm._v(_vm._s(muscleGroup) + " ")
+                ])
+              })
+            ],
+            2
+          )
+        ]),
+        _vm._v(" "),
+        _c("table", { staticClass: "table" }, [
+          _vm._m(0),
           _vm._v(" "),
-          _vm._l(_vm.muscleGroups, function(muscleGroup, index) {
-            return _c("option", { domProps: { value: index } }, [
-              _vm._v(_vm._s(muscleGroup) + " ")
-            ])
-          })
-        ],
-        2
-      )
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "divexcer" }, [
-      _c("td", [
-        _c(
-          "select",
-          { staticClass: "dropDownSpecificExcercise", attrs: { required: "" } },
-          [
-            _c("option", [_vm._v("Select here")]),
-            _vm._v(" "),
-            _vm._l(_vm.muscleExcercises, function(muscleExcercise, index) {
-              return _c("option", [_vm._v(_vm._s(muscleExcercise))])
-            })
-          ],
-          2
-        )
-      ])
-    ]),
-    _vm._v(" "),
-    _c("td", [
-      _c(
-        "select",
-        { staticClass: "setReps1", attrs: { required: "" } },
-        [
-          _c("option", [_vm._v("Select here")]),
-          _vm._v(" "),
-          _vm._l(_vm.repetitions, function(repetition) {
-            return _c("option", { domProps: { value: repetition } }, [
-              _vm._v(_vm._s(repetition))
-            ])
-          })
-        ],
-        2
-      )
-    ]),
-    _vm._v(" "),
-    _c("table", { staticClass: "table" }, [
-      _vm._m(0),
-      _vm._v(" "),
-      _c(
-        "tbody",
-        _vm._l(_vm.rows, function(row, index) {
-          return _c("tr", [
-            _c("td", [
-              _c(
-                "select",
-                {
-                  staticClass: "dropDownSpecificExcercise",
-                  attrs: { required: "" }
-                },
-                [
-                  _c("option", [_vm._v("Select here")]),
-                  _vm._v(" "),
-                  _vm._l(_vm.muscleExcercises, function(muscleExcercise) {
-                    return _c("option", [_vm._v(_vm._s(muscleExcercise))])
-                  })
-                ],
-                2
-              )
-            ]),
-            _vm._v(" "),
-            _c("td", [
-              _c(
-                "select",
-                {
-                  directives: [
+          _c(
+            "tbody",
+            _vm._l(_vm.rows, function(row, index) {
+              return _c("tr", [
+                _c("td", [
+                  _c(
+                    "select",
                     {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.selectedList[index],
-                      expression: "selectedList[index]"
-                    }
-                  ],
-                  staticClass: "setReps",
-                  attrs: { required: "" },
-                  on: {
-                    change: function($event) {
-                      var $$selectedVal = Array.prototype.filter
-                        .call($event.target.options, function(o) {
-                          return o.selected
-                        })
-                        .map(function(o) {
-                          var val = "_value" in o ? o._value : o.value
-                          return val
-                        })
-                      _vm.$set(
-                        _vm.selectedList,
-                        index,
-                        $event.target.multiple
-                          ? $$selectedVal
-                          : $$selectedVal[0]
-                      )
-                    }
-                  }
-                },
-                [
-                  _c("option", [_vm._v("Select here")]),
-                  _vm._v(" "),
-                  _vm._l(_vm.repetitions, function(repetition) {
-                    return _c("option", { domProps: { value: repetition } }, [
-                      _vm._v(_vm._s(repetition))
-                    ])
-                  })
-                ],
-                2
-              )
-            ]),
-            _vm._v(" "),
-            _c("td", [
-              _c(
-                "select",
-                { staticClass: "setWeight", attrs: { required: "" } },
-                [
-                  _c("option", [_vm._v("Select here")]),
-                  _vm._v(" "),
-                  _vm._l(_vm.repetitions, function(repetition) {
-                    return _c("option", [_vm._v(_vm._s(repetition))])
-                  })
-                ],
-                2
-              )
-            ]),
-            _vm._v(" "),
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.exerciseRecord.exercise,
+                          expression: "exerciseRecord.exercise"
+                        }
+                      ],
+                      staticClass: "dropDownSpecificExercise",
+                      attrs: { required: "" },
+                      on: {
+                        change: [
+                          function($event) {
+                            var $$selectedVal = Array.prototype.filter
+                              .call($event.target.options, function(o) {
+                                return o.selected
+                              })
+                              .map(function(o) {
+                                var val = "_value" in o ? o._value : o.value
+                                return val
+                              })
+                            _vm.$set(
+                              _vm.exerciseRecord,
+                              "exercise",
+                              $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            )
+                          },
+                          function($event) {
+                            return _vm.onChangeExcercise($event)
+                          }
+                        ]
+                      }
+                    },
+                    [
+                      _c("option", [_vm._v("Select")]),
+                      _vm._v(" "),
+                      _vm._l(_vm.muscleExercises, function(muscleExercise) {
+                        return _c("option", [_vm._v(_vm._s(muscleExercise))])
+                      })
+                    ],
+                    2
+                  )
+                ]),
+                _vm._v(" "),
+                _c("td", [
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.exerciseRecord.repetitions,
+                          expression: "exerciseRecord.repetitions"
+                        }
+                      ],
+                      staticClass: "setReps",
+                      attrs: { required: "" },
+                      on: {
+                        change: function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.$set(
+                            _vm.exerciseRecord,
+                            "repetitions",
+                            $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          )
+                        }
+                      }
+                    },
+                    [
+                      _c("option", [_vm._v("Select ")]),
+                      _vm._v(" "),
+                      _vm._l(_vm.repetitions, function(repetition) {
+                        return _c(
+                          "option",
+                          { domProps: { value: repetition } },
+                          [_vm._v(_vm._s(repetition))]
+                        )
+                      })
+                    ],
+                    2
+                  )
+                ]),
+                _vm._v(" "),
+                _c("td", [
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.exerciseRecord.weight,
+                          expression: "exerciseRecord.weight"
+                        }
+                      ],
+                      staticClass: "setWeight",
+                      attrs: { required: "" },
+                      on: {
+                        change: function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.$set(
+                            _vm.exerciseRecord,
+                            "weight",
+                            $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          )
+                        }
+                      }
+                    },
+                    [
+                      _c("option", [_vm._v("Select ")]),
+                      _vm._v(" "),
+                      _vm._l(_vm.repetitions, function(repetition) {
+                        return _c("option", [_vm._v(_vm._s(repetition))])
+                      })
+                    ],
+                    2
+                  )
+                ])
+              ])
+            }),
+            0
+          ),
+          _vm._v(" "),
+          _c("tbody", [
             _c("td", [
               _c("button", { staticClass: "btn-success" }, [
                 _c(
@@ -59085,14 +59189,16 @@ var render = function() {
                     staticStyle: { cursor: "pointer" },
                     on: {
                       click: function($event) {
-                        return _vm.saveRecord(index)
+                        return _vm.saveRecord()
                       }
                     }
                   },
                   [_vm._v("Save")]
                 )
-              ]),
-              _vm._v(" "),
+              ])
+            ]),
+            _vm._v(" "),
+            _c("td", [
               _c("button", { staticClass: "btn-danger" }, [
                 _c(
                   "a",
@@ -59100,7 +59206,7 @@ var render = function() {
                     staticStyle: { cursor: "pointer" },
                     on: {
                       click: function($event) {
-                        return _vm.removeElement(index)
+                        return _vm.removeElement(_vm.index)
                       }
                     }
                   },
@@ -59109,17 +59215,60 @@ var render = function() {
               ])
             ])
           ])
-        }),
-        0
-      )
-    ]),
-    _vm._v(" "),
-    _c("div", [
-      _c(
-        "button",
-        { staticClass: "button btn-primary", on: { click: _vm.addRow } },
-        [_vm._v("Add row")]
-      )
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "latestRecords" }, [
+        _c("h3", { staticStyle: { "text-align": "center" } }, [
+          _vm._v(" Latest records")
+        ]),
+        _vm._v(" "),
+        _c("table", { staticClass: "table table-striped" }, [
+          _vm._m(1),
+          _vm._v(" "),
+          _c(
+            "tbody",
+            _vm._l(_vm.exerciseRecords, function(exercise) {
+              return _c("tr", { key: exercise.id }, [
+                _c("td", [_vm._v(_vm._s(exercise.date))]),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(exercise.exercise))]),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(exercise.repetitions))]),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(exercise.weight))])
+              ])
+            }),
+            0
+          )
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "latestSpecificRecords" }, [
+        _c("h3", { staticStyle: { "text-align": "center" } }, [
+          _vm._v(" Specific records")
+        ]),
+        _vm._v(" "),
+        _c("table", { staticClass: "table table-striped" }, [
+          _vm._m(2),
+          _vm._v(" "),
+          _c(
+            "tbody",
+            _vm._l(_vm.specificExerciseRecords, function(exercise) {
+              return _c("tr", { key: exercise.id }, [
+                _c("td", [_vm._v(_vm._s(exercise.date))]),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(exercise.exercise))]),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(exercise.repetitions))]),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(exercise.weight))])
+              ])
+            }),
+            0
+          )
+        ])
+      ])
     ])
   ])
 }
@@ -59130,13 +59279,45 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("thead", [
       _c("tr", [
-        _c("td", [_c("strong", [_vm._v("Dropdown ")])]),
+        _c("td", [_c("strong", [_vm._v("Exercise ")])]),
         _vm._v(" "),
-        _c("td", [_c("strong", [_vm._v("set1 repetitions")])]),
+        _c("td", [_c("strong", [_vm._v("Repetitions")])]),
         _vm._v(" "),
-        _c("td", [_c("strong", [_vm._v("set1 weight")])]),
+        _c("td", [_c("strong", [_vm._v("Weight")])]),
         _vm._v(" "),
         _c("td")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("date")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("exercise")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("repetition")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("weight")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("date")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("exercise")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("repetition")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("weight")])
       ])
     ])
   }

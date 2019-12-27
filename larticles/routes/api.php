@@ -48,10 +48,15 @@ Route::get('weightRecords', 'ArticleController@index_weight');
 Route::post('weightRecord1', 'ArticleController@store_weightRecord1');
 
 
-// List articles
-//Route::get('sleepRecords', 'ArticleController@index_sleep');
 
-Route::post('excerciseRecord', 'ArticleController@store_excerciseRecord');
+Route::post('exerciseRecord', 'ArticleController@store_exerciseRecord');
+
+Route::get('exerciseRecords', 'ArticleController@index_exerciseRecords');
+
+Route::get('latestSpecificExerciseRecords', 'ArticleController@index_latestSpecificExerciseRecords');
+
+Route::post('showSpecificExercise', 'ArticleController@show_showSpecificExercise');
+
 
 
 

@@ -11,6 +11,11 @@ use App\Http\Resources\Article as ArticleResource;
 use App\WeightRecord;
 use App\Http\Resources\WeightRecord as WeightRecordResource;
 
+use App\Exercise;
+use App\Http\Resources\Exercise as ExerciseRecordResource;
+
+use Illuminate\Support\Facades\DB;
+
 class ArticleController extends Controller
 {
     /**
@@ -45,6 +50,66 @@ class ArticleController extends Controller
         // Return collection of articles as a resource
         return WeightRecordResource::collection($weightRecords);
     }
+
+
+    public function index_exerciseRecords()
+    {
+        // Get articles
+        $exerciseRecords = Exercise::orderBy('date', 'desc');
+        $exerciseRecords = $exerciseRecords->paginate(10);
+
+        // Return collection of articles as a resource
+        return ExerciseRecordResource::collection( $exerciseRecords );
+    }
+
+
+    public function index_latestSpecificExerciseRecords()
+    {
+        // Get articles
+        //$exerciseRecords = Exercise::where('exercise','back row');
+        //$exerciseRecords = DB::table('exercises')->where('exercise','pull up');
+        //$exerciseRecords = Exercise::orderBy('date', 'asc')->where('exercise','pull up');
+        //$exerciseRecords = Exercise::orderBy('date', 'desc')->paginate(10);
+        //$exerciseRecords = Exercise::orderBy('date', 'desc')->where('repetitions', '8');      
+        //$product = $exerciseRecords->>where('exercise','pull up')->first();
+        // return $exerciseRecords;
+        // Return collection of articles as a resource
+
+        //$exerciseRecords = Exercise::orderBy('date', 'desc')->paginate(10);
+        //return ExerciseRecordResource::collection($exerciseRecords);
+
+        $exerciseRecords = Exercise::all()->where('exercise','pull up');
+
+        //$specific = )->where('name', 'John')
+        return ExerciseRecordResource::collection($exerciseRecords);
+
+
+    }
+
+    public function index_latestSpecificExerciseRecordsWithExercise($id)
+    {
+        // Get articles
+        //$exerciseRecords = Exercise::where('exercise','back row');
+        //$exerciseRecords = DB::table('exercises')->where('exercise','pull up');
+        //$exerciseRecords = Exercise::orderBy('date', 'asc')->where('exercise','pull up');
+        //$exerciseRecords = Exercise::orderBy('date', 'desc')->paginate(10);
+        //$exerciseRecords = Exercise::orderBy('date', 'desc')->where('repetitions', '8');      
+        //$product = $exerciseRecords->>where('exercise','pull up')->first();
+        // return $exerciseRecords;
+        // Return collection of articles as a resource
+
+        //$exerciseRecords = Exercise::orderBy('date', 'desc')->paginate(10);
+        //return ExerciseRecordResource::collection($exerciseRecords);
+
+        $exerciseRecords = Exercise::all()->where('exercise',$id);
+
+        //$specific = )->where('name', 'John')
+        return ExerciseRecordResource::collection($exerciseRecords);
+
+
+    }
+
+
     /*
     public function index_weightNoId()
     {
@@ -90,20 +155,20 @@ class ArticleController extends Controller
         }
     }
 
-    public function store_excerciseRecord(Request $request)
+    public function store_exerciseRecord(Request $request)
     {
 
-        $excerciseRecord = $request->isMethod('put') ? ExcerciseRecord::findOrFail($request->excerciseRecord_id) : new ExcerciseRecord;
+        $exerciseRecord = $request->isMethod('put') ? Exercise::findOrFail($request->exerciseRecord_id) : new Exercise;
 
-        $excerciseRecord->id = $request->input('excerciseRecord_id');
-        $excerciseRecord->date = $request->input('date');
-        $excerciseRecord->exercise = $request->input('exercise');   
-        $excerciseRecord->repetitions = $request->input('repetitions');   
-        $excerciseRecord->weight = $request->input('weight');   
+        $exerciseRecord->id = $request->input('exerciseRecord_id');
+        $exerciseRecord->date = $request->input('date');
+        $exerciseRecord->exercise = $request->input('exercise');   
+        $exerciseRecord->repetitions = $request->input('repetitions');   
+        $exerciseRecord->weight = $request->input('weight');   
 
         
-        if($excerciseRecord->save()){
-            return new ExcerciseRecordResource($excerciseRecord);
+        if($exerciseRecord->save()){
+            return new ExerciseRecordResource($exerciseRecord);
         }
     }
 
@@ -122,7 +187,27 @@ class ArticleController extends Controller
         return new ArticleResource($article);
     }
 
+    public function show_showSpecificExercise(Request $request)
+    {
+        $ids = $request->all();
+        //dd($ids[0]);
 
+        $value = $ids[0];
+
+        //$data = collect(json_decode($request));
+        //dd($data);
+
+
+        // works aswell
+        //$exerciseRecords = Exercise::all()->where('exercise', $value);
+        $exerciseRecords = Exercise::orderBy('date', 'desc')->where('exercise', $value)->get();
+
+
+
+
+        //$specific = )->where('name', 'John')
+        return ExerciseRecordResource::collection($exerciseRecords);
+    }
 
     /**
      * Remove the specified resource from storage.
