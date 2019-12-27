@@ -211,7 +211,7 @@
                     })
                     .then(res => res.json())
                     .then(data => {
-                        alert('exerciseRecord Added');
+                        //alert('exerciseRecord Added');
                         //this.fetchWeightRecords();
                     })
                     .catch(err => console.log(err));
@@ -288,7 +288,7 @@
                     .then(res => res.json())
                     .then(res => {
                       this.specificExerciseRecords = res.data;
-                        alert('exercise changes');
+                        //alert('exercise changes');
                         //this.fetchWeightRecords();
                     })
                     .catch(err => console.log(err));

@@ -2255,8 +2255,8 @@ __webpack_require__.r(__webpack_exports__);
         }
       }).then(function (res) {
         return res.json();
-      }).then(function (data) {
-        alert('exerciseRecord Added'); //this.fetchWeightRecords();
+      }).then(function (data) {//alert('exerciseRecord Added');
+        //this.fetchWeightRecords();
       })["catch"](function (err) {
         return console.log(err);
       });
@@ -2336,8 +2336,8 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (res) {
         return res.json();
       }).then(function (res) {
-        _this3.specificExerciseRecords = res.data;
-        alert('exercise changes'); //this.fetchWeightRecords();
+        _this3.specificExerciseRecords = res.data; //alert('exercise changes');
+        //this.fetchWeightRecords();
       })["catch"](function (err) {
         return console.log(err);
       }); //this.fetchAllRecordFunctions();
