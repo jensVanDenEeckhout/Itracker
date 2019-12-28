@@ -2217,7 +2217,13 @@ __webpack_require__.r(__webpack_exports__);
       selected: '12',
       selectedList: [12, 1, 2, 3, 4],
       rows: [],
-      muscleGroups: ['back', 'bicep'],
+      muscleGroups: ['back', 'bicep', 'chest', 'tricep', 'legs', 'shoulder'],
+      back_exercises: ['back row', 'pull up'],
+      biceps_exercises: ['biceps curl', 'hammer curl'],
+      chest_exercises: ['halter bench press', 'chest dips'],
+      triceps_exercises: ['tricep extension', 'tricep rope pushdown'],
+      leg_exercises: ['seated leg curl', 'leg extension'],
+      shoulder_exercises: ['shoulder press', 'dumbbell front raise'],
       repetitions: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
       rowsexc: [],
       muscleExercises: [],
@@ -2296,12 +2302,29 @@ __webpack_require__.r(__webpack_exports__);
     },
     fillComboboxBasedOnMuscleGroup: function fillComboboxBasedOnMuscleGroup() {
       console.log('fillcomboboxmusclegroup');
-      console.log(this);
+      console.log(this); //'back','bicep','chest','tricep','legs','shoulder
+
+      /*
+      back_exercises: ['back row','pull up'],
+      biceps_exercises: ['biceps curl','hammer curl'],
+      chest_exercises: ['halter bench press','chest dips'],
+      triceps_exercises: ['tricep extension','tricep rope pushdown'],
+      leg_exercises: ['seated leg curl','leg extension'],
+      shoulder_exercises: ['shoulder press','dumbbell front raise'],
+      */
 
       if (this.selectedMuscleGroup == this.muscleGroups[0]) {
-        this.muscleExercises = ['back row', 'pull up'];
+        this.muscleExercises = this.back_exercises;
       } else if (this.selectedMuscleGroup == this.muscleGroups[1]) {
-        this.muscleExercises = ['biceps curl', 'hammer curl'];
+        this.muscleExercises = this.biceps_exercises;
+      } else if (this.selectedMuscleGroup == this.muscleGroups[2]) {
+        this.muscleExercises = this.chest_exercises;
+      } else if (this.selectedMuscleGroup == this.muscleGroups[3]) {
+        this.muscleExercises = this.triceps_exercises;
+      } else if (this.selectedMuscleGroup == this.muscleGroups[4]) {
+        this.muscleExercises = this.leg_exercises;
+      } else if (this.selectedMuscleGroup == this.muscleGroups[5]) {
+        this.muscleExercises = this.shoulder_exercises;
       } else {}
 
       console.log(this.muscleExercises);
@@ -72060,15 +72083,14 @@ __webpack_require__.r(__webpack_exports__);
 /*!*******************************************************!*\
   !*** ./resources/js/components/StrengthExcercise.vue ***!
   \*******************************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _StrengthExcercise_vue_vue_type_template_id_12236159___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./StrengthExcercise.vue?vue&type=template&id=12236159& */ "./resources/js/components/StrengthExcercise.vue?vue&type=template&id=12236159&");
 /* harmony import */ var _StrengthExcercise_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./StrengthExcercise.vue?vue&type=script&lang=js& */ "./resources/js/components/StrengthExcercise.vue?vue&type=script&lang=js&");
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _StrengthExcercise_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _StrengthExcercise_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var _StrengthExcercise_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./StrengthExcercise.vue?vue&type=style&index=0&lang=css& */ "./resources/js/components/StrengthExcercise.vue?vue&type=style&index=0&lang=css&");
+/* empty/unused harmony star reexport *//* harmony import */ var _StrengthExcercise_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./StrengthExcercise.vue?vue&type=style&index=0&lang=css& */ "./resources/js/components/StrengthExcercise.vue?vue&type=style&index=0&lang=css&");
 /* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
@@ -72100,7 +72122,7 @@ component.options.__file = "resources/js/components/StrengthExcercise.vue"
 /*!********************************************************************************!*\
   !*** ./resources/js/components/StrengthExcercise.vue?vue&type=script&lang=js& ***!
   \********************************************************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -72322,15 +72344,14 @@ __webpack_require__.r(__webpack_exports__);
 /*!********************************************************!*\
   !*** ./resources/js/components/WeightTrackerGraph.vue ***!
   \********************************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _WeightTrackerGraph_vue_vue_type_template_id_01bcd239___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./WeightTrackerGraph.vue?vue&type=template&id=01bcd239& */ "./resources/js/components/WeightTrackerGraph.vue?vue&type=template&id=01bcd239&");
 /* harmony import */ var _WeightTrackerGraph_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./WeightTrackerGraph.vue?vue&type=script&lang=js& */ "./resources/js/components/WeightTrackerGraph.vue?vue&type=script&lang=js&");
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _WeightTrackerGraph_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _WeightTrackerGraph_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
@@ -72360,7 +72381,7 @@ component.options.__file = "resources/js/components/WeightTrackerGraph.vue"
 /*!*********************************************************************************!*\
   !*** ./resources/js/components/WeightTrackerGraph.vue?vue&type=script&lang=js& ***!
   \*********************************************************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

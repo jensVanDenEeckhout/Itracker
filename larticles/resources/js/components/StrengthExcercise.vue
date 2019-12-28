@@ -169,7 +169,15 @@
                   selected:'12',
                   selectedList:[12,1,2,3,4],
                   rows: [],
-                  muscleGroups: ['back','bicep'],
+                  muscleGroups: ['back','bicep','chest','tricep','legs','shoulder'],
+
+                  back_exercises: ['back row','pull up'],
+                  biceps_exercises: ['biceps curl','hammer curl'],
+                  chest_exercises: ['halter bench press','chest dips'],
+                  triceps_exercises: ['tricep extension','tricep rope pushdown'],
+                  leg_exercises: ['seated leg curl','leg extension'],
+                  shoulder_exercises: ['shoulder press','dumbbell front raise'],
+
                   repetitions: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16],
                   rowsexc: [],
                   muscleExercises: [],
@@ -247,14 +255,30 @@
                   fillComboboxBasedOnMuscleGroup: function(){
                     console.log('fillcomboboxmusclegroup');
                     console.log(this);
+                    //'back','bicep','chest','tricep','legs','shoulder
 
+                    /*
+                   back_exercises: ['back row','pull up'],
+                  biceps_exercises: ['biceps curl','hammer curl'],
+                  chest_exercises: ['halter bench press','chest dips'],
+                  triceps_exercises: ['tricep extension','tricep rope pushdown'],
+                  leg_exercises: ['seated leg curl','leg extension'],
+                  shoulder_exercises: ['shoulder press','dumbbell front raise'],
+                  */
                     if( this.selectedMuscleGroup == this.muscleGroups[0]){
-                      this.muscleExercises = ['back row','pull up'];
-                     }else if( this.selectedMuscleGroup == this.muscleGroups[1] ){
-                      this.muscleExercises = ['biceps curl','hammer curl'];
-                     }else{
-
-                     }
+                      this.muscleExercises = this.back_exercises;
+                    }else if( this.selectedMuscleGroup == this.muscleGroups[1] ){
+                      this.muscleExercises = this.biceps_exercises;
+                    }else if( this.selectedMuscleGroup == this.muscleGroups[2] ){
+                      this.muscleExercises = this.chest_exercises;
+                    }else if( this.selectedMuscleGroup == this.muscleGroups[3] ){
+                      this.muscleExercises = this.triceps_exercises;
+                    }else if( this.selectedMuscleGroup == this.muscleGroups[4] ){
+                      this.muscleExercises = this.leg_exercises;
+                    }else if( this.selectedMuscleGroup == this.muscleGroups[5] ){
+                      this.muscleExercises = this.shoulder_exercises;
+                    }else{
+                    }
                      console.log( this.muscleExercises );
 
                   },
