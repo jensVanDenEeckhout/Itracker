@@ -58,6 +58,16 @@ Route::get('latestSpecificExerciseRecords', 'ArticleController@index_latestSpeci
 Route::post('showSpecificExercise', 'ArticleController@show_showSpecificExercise');
 
 
+Route::post('addTask', 'ArticleController@store_task');
+Route::get('tasks', 'ArticleController@index_tasks');
+
+Route::post('addDays', 'ArticleController@store_day');
+Route::get('days', 'ArticleController@index_days');
+
+
+
+
+
 
 
 

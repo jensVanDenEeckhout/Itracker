@@ -15,24 +15,29 @@
 
     </head>
     <body>
-        <div id="app">
+        <div id="app" >
 
-            <navbar></navbar>
+            <navbar class="col-xs-12"></navbar>
+
+            <day_record></day_record>
+
+
             <introduction></introduction>
-            <add_task></add_task>
-            
-            <wtgtest></wtgtest>
-            <se></se>
+            <div class="row">
+                <add_task class="col-xs-12 col-md-6"></add_task>
+                <dropdown class="col-xs-12 col-md-6"></dropdown>
+            </div>
+
+            <add_stength_exercise_record></add_stength_exercise_record>
             <div class="row">
                 <div class="col-sm-12">
                     <weight_tracker_with_graph></weight_tracker_with_graph>
                 </div>
                 
             </div>
+
             <div class="container">
-
                 <articles></articles>
-
             </div>
         </div>
 

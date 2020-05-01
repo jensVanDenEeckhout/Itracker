@@ -24,9 +24,18 @@ import weighttracker from './components/WeightTracker';
 import ct1 from './components/ChartTest1';
 import wtg from './components/WeightTrackerGraph';
 
-import wtg3 from './components/WeightTrackerAddGraphDataShow';
-import se from './components/StrengthExcercise';
+import weight_tracker_with_graph from './components/WeightTrackerAddGraphDataShow';
+import add_stength_exercise_record from './components/StrengthExcercise';
  
+import wtgtest from './components/Test';
+
+import introduction from './components/Introduction';
+
+import add_task from './components/AddTask';
+
+import dropdown from './components/Dropdown'
+
+import day_record from './components/DayRecord'
 
 const app = new Vue({
   el: '#app',
@@ -36,7 +45,12 @@ const app = new Vue({
     weighttracker:weighttracker,
     ct1:ct1, 
     wtg:wtg,
-    wtg3:wtg3,
-    se:se
+    weight_tracker_with_graph:weight_tracker_with_graph,
+    add_stength_exercise_record:add_stength_exercise_record,
+    wtgtest:wtgtest,
+    introduction:introduction,
+    add_task:add_task,
+    dropdown:dropdown,
+    day_record:day_record
   }
 });

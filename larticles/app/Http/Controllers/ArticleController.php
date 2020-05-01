@@ -14,6 +14,14 @@ use App\Http\Resources\WeightRecord as WeightRecordResource;
 use App\Exercise;
 use App\Http\Resources\Exercise as ExerciseRecordResource;
 
+use App\TaskRecord;
+use App\Http\Resources\TaskRecord as TaskRecordResource;
+
+use App\DayRecord;
+use App\Http\Resources\DayRecord as DayRecordResource;
+
+
+
 use Illuminate\Support\Facades\DB;
 
 class ArticleController extends Controller
@@ -42,6 +50,22 @@ class ArticleController extends Controller
     }
 
 
+    public function index_tasks()
+    {
+        // Get articles
+        $tasks = TaskRecord::orderBy('id', 'desc')->paginate(10);
+        // Return collection of articles as a resource
+        return TaskRecordResource::collection($tasks);
+    }
+
+    public function index_days()
+    {
+        // Get articles
+        $days = DayRecord::orderBy('id', 'desc')->paginate(10);
+        // Return collection of articles as a resource
+        return DayRecordResource::collection($days);
+    } 
+
     public function index_weight()
     {
         // Get articles
@@ -50,7 +74,6 @@ class ArticleController extends Controller
         // Return collection of articles as a resource
         return WeightRecordResource::collection($weightRecords);
     }
-
 
     public function index_exerciseRecords()
     {
@@ -154,6 +177,30 @@ class ArticleController extends Controller
             return new WeightRecordResource($weightRecord);
         }
     }
+
+    public function store_task(Request $request){
+        $taskRecord =  new TaskRecord;
+
+        $taskRecord->name = $request->input('name');
+
+        if($taskRecord->save()){
+            return new TaskRecordResource($taskRecord);
+        }
+    }
+
+    public function store_day(Request $request){
+        $dayRecord =  new DayRecord;
+
+        $dayRecord->date = $request->input('date');
+        $dayRecord->task_id = $request->input('task_id');
+        $dayRecord->task_value = $request->input('task_value');
+
+
+
+        if($dayRecord->save()){
+            return new DayRecordResource($dayRecord);
+        }
+    } 
 
     public function store_exerciseRecord(Request $request)
     {
